@@ -1,0 +1,1 @@
+R code to produce the results of a study: "Understanding Japan's Mortality Advantage: A Comparison of Long-Term Care Populations and Healthy Populations in Japan and Sweden using the Ageing and Health Cohort and the LIFE Study."
