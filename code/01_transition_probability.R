@@ -124,7 +124,7 @@ fig_combine <-
   )
 
 # fig_combine
-ggsave(filename = "output/supl.fig2_smooth_probability.pdf", plot=fig_combine, width=10, height = 6)
+ggsave(filename = "output/suppl.fig2_smooth_probability.svg", plot=fig_combine, width=10, height = 6)
 
 
 ## observed probability ----------------------------------------------------
@@ -161,4 +161,4 @@ fig_combine <-
   )
 
 # fig_combine
-ggsave(filename = "output/supl.fig3_observed_probability.pdf", plot=fig_combine, width=10, height = 6)
+ggsave(filename = "output/suppl.fig3_observed_probability.svg", plot=fig_combine, width=10, height = 6)

@@ -1,4 +1,3 @@
-
 library(readr)
 library(stats)
 library(tidyverse)
@@ -202,11 +201,11 @@ fig_combine <- horiuchi_table %>%
   mutate(conf_low=if_else(conf_low < -80, -80, conf_low)) %>% 
   ggplot(data=., aes(x=Age, y=estimate, fill=type)) +
   geom_hline(yintercept = 0, linewidth=0.3)+
-  geom_bar(position = position_dodge2(width =0.5), stat="identity", width=0.5) +
-  geom_linerange(aes(ymax=conf_high, ymin=conf_low), position = position_dodge2(width =0.5), linewidth=0.1) +
-  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.8, xend = 5.8, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
-  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.9, xend = 5.9, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
-  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 6, xend = 6, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
+  geom_bar(position = position_dodge2(width =2), stat="identity", width=0.7, color="black", linewidth=0.05) +
+  geom_linerange(aes(ymax=conf_high, ymin=conf_low), position = position_dodge2(width =0.7), linewidth=0.1) +
+  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.72, xend = 5.72, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
+  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.86, xend = 5.86, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
+  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 6.0, xend = 6.0, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
   coord_cartesian(xlim = c(1, 6),    # set the x limits
                   ylim = c(-80, 160),  # set the y limits
                   clip = 'off')+
@@ -216,10 +215,10 @@ fig_combine <- horiuchi_table %>%
   scale_x_continuous(breaks =1:6,
                      labels = c("75-79", "80-84", "85-89", "90-94", "95-99", "100+"),
                      expand = c(0.1,0.1))+
-  scale_fill_manual(values = c("diff_dec"="grey", "mort_N"="#add8e6", "mort_H"="#ffb6c1", "mort_C"="#eeee00",  "comp_effect"="#AFE1AF"),
+  scale_fill_manual(values = c("diff_dec"="grey", "mort_N"="#add8e6", "mort_H"="#ffb6c1", "mort_C"="#eeee00",  "comp_effect"="#2ecc71"),
                     breaks = c("diff_dec", "mort_N", "mort_H", "mort_C", "comp_effect"),
-                    labels = c("Total", "No care mortality", "Home care mortality", "Care home mortality", "Care distribution"))+
-  labs(y="Difference per 1000 person-years", x="Age", fill=NULL, color=NULL, linetype=NULL, svg=NULL) +
+                    labels = c("Total", "No care mortality", "Home care mortality", "Care home mortality", "LTC distribution"))+
+  labs(y="Difference per 1000 person-years\n(Sweden - Japan)", x="Age", fill=NULL, color=NULL, linetype=NULL, svg=NULL) +
   theme(
     panel.grid.minor.x = element_blank(),
     panel.grid.major.x = element_blank(),
@@ -234,7 +233,7 @@ fig_combine <- horiuchi_table %>%
   facet_grid2(.~sex,scales = "free", independent = "all")
 # fig_combine
 
-ggsave(filename = "output/fig4_horiuchi_age.pdf", plot=fig_combine, width=8, height = 4)
+ggsave(filename = "output/fig4_horiuchi_age.pdf", plot=fig_combine, width=10, height = 4)
 
 horiuchi_table_restore %>% 
   mutate(difference=paste0(round2(estimate, d=2) %>% sprintf("%.2f", .),

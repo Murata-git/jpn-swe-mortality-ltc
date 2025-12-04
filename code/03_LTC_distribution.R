@@ -195,7 +195,7 @@ carepoportionplot <- (menplot$graph[[1]] + menplot$graph[[2]] +
         plot.tag.position  = c(0.1, 1)) &
   plot_annotation(tag_levels = list(c("Men", "", "Women", "")))
 
-ggsave(filename = "output/fig3_proportion_ltc.pdf", plot=carepoportionplot, width=7, height = 6)
+ggsave(filename = "output/fig2_proportion_ltc.pdf", plot=carepoportionplot, width=7, height = 6)
 
 
 ### Standardization

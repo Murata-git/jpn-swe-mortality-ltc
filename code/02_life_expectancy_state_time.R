@@ -157,11 +157,20 @@ table4fig <- probs %>%
 fig_combine <- read_rds("intermediate/le_dtms_boottable.rds") %>% 
   filter(bootid==0) %>% 
   filter(basestate=="Total") %>% 
+  mutate(text=round2(value,1)) %>% 
   ggplot(data=., aes(x=start_age, y=value, group=country, fill=statetime)) +
   geom_bar(data=. %>% filter(country=="japan") %>% filter(sex=="women"), aes(x=0.8), position="stack", stat="identity", width=0.2) +
+  geom_text(data=. %>% filter(country=="japan") %>% filter(sex=="women"), aes(x=0.8, label = text), 
+            size = 3, hjust = 0.5, position = position_stack(vjust = 0.5), size=2.5) +
   geom_bar(data=. %>% filter(country=="sweden") %>% filter(sex=="women"), aes(x=1.2), position="stack", stat="identity", width=0.2) +
+  geom_text(data=. %>% filter(country=="sweden") %>% filter(sex=="women"), aes(x=1.2, label = text), 
+            size = 3, hjust = 0.5, position = position_stack(vjust = 0.5), size=2.5) +
   geom_bar(data=. %>% filter(country=="japan") %>% filter(sex=="men"), aes(x=1.8), position="stack", stat="identity", width=0.2) +
+  geom_text(data=. %>% filter(country=="japan") %>% filter(sex=="men"), aes(x=1.8, label = text), 
+            size = 3, hjust = 0.5,position = position_stack(vjust = 0.5), size=2.5) +
   geom_bar(data=. %>% filter(country=="sweden") %>% filter(sex=="men"), aes(x=2.2), position="stack", stat="identity", width=0.2) +
+  geom_text(data=. %>% filter(country=="sweden") %>% filter(sex=="men"), aes(x=2.2, label = text), 
+            size = 3, hjust = 0.5, position = position_stack(vjust = 0.5), size=2.5) +
   coord_flip(xlim = c(0.7, 2.3),    # set the x limits
              ylim = c(0, 16),  # set the y limits
              clip = 'off')+
@@ -172,7 +181,7 @@ fig_combine <- read_rds("intermediate/le_dtms_boottable.rds") %>%
                      labels = c("Women                   ", "Men                 "))+
   scale_fill_manual(values = c("No care"="#add8e6", "Home care"="#ffb6c1", "Care home"="#eeee00"),
                     breaks = c("No care", "Home care", "Care home")) +
-  labs(y="Remaining life expectancy at age 75", x=NULL, fill="States", color=NULL, linetype=NULL, svg=NULL) +
+  labs(y="Remaining life expectancy at age 75", x=NULL, fill=NULL, color=NULL, linetype=NULL, svg=NULL) +
   annotate("text", label="Japan", x = c(0.8, 1.8), y = -2.5, size=4.5, hjust = 0) +
   annotate("text", label="Sweden", x = c(1.2, 2.2), y = -2.5, size=4.5, hjust = 0) +
   theme(

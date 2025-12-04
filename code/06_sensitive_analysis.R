@@ -157,7 +157,7 @@ graph_men <- mr_age_sensitive %>%
   geom_errorbar(aes(ymin=conf.low, ymax=conf.high), position=position_dodge(width=0.5), linewidth=0.3, width=0.5) +
   geom_point_svg(aes(svg = I(svg)), position=position_dodge(width=0.5), size = 3) +
   geom_text(data=sd %>% filter(sex=="Men"), aes(y=30, x=5, group=NULL, label = SD)) +
-  labs(y="Mortality rate (log-scale) \nper 1000 person-year", x="Age",
+  labs(y="Death rate (log-scale) \nper 1000 person-year", x="Age",
        subtitle="Men", color=NULL, svg=NULL) +
   coord_trans(y="log10") +
   scale_y_continuous(limits=c(8, 1020.1),
@@ -191,7 +191,7 @@ graph_women <- mr_age_sensitive %>%
   geom_errorbar(aes(ymin=conf.low, ymax=conf.high), position=position_dodge(width=0.5), linewidth=0.3, width=0.5) +
   geom_point_svg(aes(svg = I(svg)), position=position_dodge(width=0.5), size = 3) +
   geom_text(data=sd %>% filter(sex=="Women"), aes(y=30, x=5, group=NULL, label = SD)) +
-  labs(y="Mortality rate (log-scale) \nper 1000 person-year", x="Age",
+  labs(y="Death rate (log-scale) \nper 1000 person-year", x="Age",
        subtitle="Women", color=NULL, svg=NULL) +
   coord_trans(y="log10") +
   scale_y_continuous(limits=c(8, 1020.1),
@@ -223,7 +223,7 @@ graph <- graph_men / graph_women +
               axis_titles = "collect") & 
   theme(legend.position = 'bottom')
 
-ggsave(filename = "output/supl.fig5_mr_age_sex_country_care_sensitive.pdf", plot=graph, width=12, height = 8)
+ggsave(filename = "output/suppl.fig5_mr_age_sex_country_care_sensitive.svg", plot=graph, width=12, height = 8)
 
 
 # Horiuchi decomposition methods  -----------------------------------------
@@ -364,13 +364,13 @@ fig_combine <- horiuchi_table %>%
          conf_high=if_else(conf_high > 160, 160, conf_high)) %>%
   ggplot(data=., aes(x=Age, y=estimate, fill=type)) +
   geom_hline(yintercept = 0, linewidth=0.3)+
-  geom_bar(position = position_dodge2(width =0.5), stat="identity", width=0.5) +
-  geom_linerange(aes(ymax=conf_high, ymin=conf_low), position = position_dodge2(width =0.5), linewidth=0.1) +
-  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.8, xend = 5.8, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
-  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.9, xend = 5.9, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
+  geom_bar(position = position_dodge2(width =0.5), stat="identity", width=0.7, color="black", linewidth=0.2) +
+  geom_linerange(aes(ymax=conf_high, ymin=conf_low), position = position_dodge2(width =0.7), linewidth=0.2) +
+  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.72, xend = 5.72, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
+  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.86, xend = 5.86, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
   geom_segment(data=. %>% filter(sex=="Men"), aes(x = 6, xend = 6, y = -79, yend = -80), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
-  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.8, xend = 5.8, y = 159, yend = 160), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
-  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 6.1, xend = 6.1, y = 159, yend = 160), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
+  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 5.72, xend = 5.72, y = 159, yend = 160), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
+  geom_segment(data=. %>% filter(sex=="Men"), aes(x = 6.14, xend = 6.14, y = 159, yend = 160), arrow = arrow(length = unit(1, "mm")), linewidth=0.01)+
   coord_cartesian(xlim = c(1, 6),    # set the x limits
                   ylim = c(-80, 160),  # set the y limits
                   clip = 'off')+
@@ -380,10 +380,10 @@ fig_combine <- horiuchi_table %>%
   scale_x_continuous(breaks =1:6,
                      labels = c("75-79", "80-84", "85-89", "90-94", "95-99", "100+"),
                      expand = c(0.1,0.1))+
-  scale_fill_manual(values = c("diff_dec"="grey", "mort_N"="#add8e6", "mort_H"="#ffb6c1", "mort_C"="#eeee00",  "comp_effect"="#AFE1AF"),
+  scale_fill_manual(values = c("diff_dec"="grey", "mort_N"="#add8e6", "mort_H"="#ffb6c1", "mort_C"="#eeee00",  "comp_effect"="#2ecc71"),
                     breaks = c("diff_dec", "mort_N", "mort_H", "mort_C", "comp_effect"),
-                    labels = c("Total", "No care mortality", "Home care mortality", "Care home mortality", "Care distribution"))+
-  labs(y="Difference per 1000 person-years", x="Age", fill=NULL, color=NULL, linetype=NULL, svg=NULL) +
+                    labels = c("Total", "No care mortality", "Home care mortality", "Care home mortality", "LTC distribution"))+
+  labs(y="Difference per 1000 person-years\n(Sweden - Japan)", x="Age", fill=NULL, color=NULL, linetype=NULL, svg=NULL) +
   theme(
     panel.grid.minor.x = element_blank(),
     panel.grid.major.x = element_blank(),
@@ -398,7 +398,7 @@ fig_combine <- horiuchi_table %>%
   facet_grid2(.~sex,scales = "free", independent = "all")
 # fig_combine
 
-ggsave(filename = "output/supl.fig6_horiuchi_age_sensitive.pdf", plot=fig_combine, width=8, height = 4)
+ggsave(filename = "output/suppl.fig6_horiuchi_age_sensitive.svg", plot=fig_combine, width=10, height = 4)
 
 horiuchi_table_restore %>% 
   mutate(difference=paste0(round2(estimate, d=2) %>% sprintf("%.2f", .),

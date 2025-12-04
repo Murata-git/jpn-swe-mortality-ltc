@@ -83,6 +83,17 @@ age_weight <- data %>%
   mutate(weight=(Sweden+Japan)/2) %>% 
   select(age, weight)
 
+# Follow up time ----------------------------------------------------------
+
+data %>% 
+  filter(bootid==0) %>% 
+  summarise(across(c(py, n), ~sum(.x)), .by=c(country)) %>% 
+  mutate(ave_follow=py/n)
+
+data %>% 
+  filter(bootid==0) %>% 
+  summarise(across(c(py, n), ~sum(.x))) %>% 
+  mutate(ave_follow=py/n)
 
 # Age distribution   ------------------------------------------------------
 
@@ -161,7 +172,7 @@ graph_men <- standardization |>
   ggplot(data = ., aes(x=care, y=age_standardized_MR)) +
   geom_errorbar(aes(ymin=conf.low, ymax=conf.high, group=country), position=position_dodge(width=0.3), linewidth=0.2, width=0.3) +
   geom_point_svg(aes(svg = country), position=position_dodge(width=0.3), size = 3) +
-  labs(y="Age-standardized mortality rate \nper 1000 person-year", x="",
+  labs(y="Age-standardized death rate \nper 1000 person-year", x="",
        title="Men",
        svg="Country") +
   scale_y_continuous(limits=c(0, 425),
@@ -266,7 +277,7 @@ gcombine <- graph_men + graph_women +
   plot_layout(guides = "collect", heights = c(5, -0.4, 1), nrow=3, ncol=2) & theme(legend.position = 'bottom')
 
 
-ggsave(filename = "output/supl.fig4_standardized_mr.pdf", plot=gcombine, width=8.5, height = 4)
+ggsave(filename = "output/suppl.fig4_standardized_mr.svg", plot=gcombine, width=8.5, height = 4)
 
 ## Age specific mortality --------------------------------------------------
 
@@ -301,7 +312,7 @@ graph_men <- mr_age %>%
   geom_errorbar(aes(ymin=conf.low, ymax=conf.high), position=position_dodge(width=0.5), linewidth=0.3, width=0.5) +
   geom_point_svg(aes(svg = I(svg)), position=position_dodge(width=0.5), size = 3) +
   geom_text(data=sd %>% filter(sex=="Men"), aes(y=30, x=5, group=NULL, label = SD)) +
-  labs(y="Mortality rate (log-scale) \nper 1000 person-year", x=NULL,
+  labs(y="Death rate (log-scale) \nper 1000 person-year", x=NULL,
        subtitle="Men", color=NULL, svg=NULL) +
   coord_trans(y="log10", clip = 'off') +
   scale_y_continuous(limits=c(8, 1020.1),
@@ -335,7 +346,7 @@ graph_women <- mr_age %>%
   geom_errorbar(aes(ymin=conf.low, ymax=conf.high), position=position_dodge(width=0.5), linewidth=0.3, width=0.5) +
   geom_point_svg(aes(svg = I(svg)), position=position_dodge(width=0.5), size = 3) +
   geom_text(data=sd %>% filter(sex=="Women"), aes(y=30, x=5, group=NULL, label = SD)) +
-  labs(y="Mortality rate (log-scale) \nper 1000 person-year", x="Age",
+  labs(y="Death rate (log-scale) \nper 1000 person-year", x="Age",
        subtitle="Women", color=NULL, svg=NULL) +
   coord_trans(y="log10") +
   scale_y_continuous(limits=c(8, 1020.1),
@@ -368,4 +379,4 @@ graph <- graph_men / graph_women +
   theme(legend.position = 'bottom')
 
 # graph
-ggsave(filename = "output/fig2_mr_age_sex_country_care.pdf", plot=graph, width=12, height = 8)
+ggsave(filename = "output/fig3_mr_age_sex_country_care.pdf", plot=graph, width=12, height = 8)
