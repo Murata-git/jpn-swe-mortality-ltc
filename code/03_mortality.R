@@ -266,7 +266,7 @@ gcombine <- graph_men + graph_women +
   plot_layout(guides = "collect", heights = c(5, -0.4, 1), nrow=3, ncol=2) & theme(legend.position = 'bottom')
 
 
-ggsave(filename = "output/supl.fig4_standardized_mr.pdf", plot=gcombine, width=8.5, height = 4)
+ggsave(filename = "output/supl.fig4_standardized_mr.svg", plot=gcombine, width=8.5, height = 4)
 
 ## Age specific mortality --------------------------------------------------
 
